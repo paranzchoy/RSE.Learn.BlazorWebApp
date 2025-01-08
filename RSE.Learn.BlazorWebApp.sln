@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSE.Learn.BlazorWebApp", "RSE.Learn.BlazorWebApp\RSE.Learn.BlazorWebApp.csproj", "{22C771BA-13D4-45A4-9188-B3310A586114}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSE.Learn.BlazorWebApp.Client", "RSE.Learn.BlazorWebApp.Client\RSE.Learn.BlazorWebApp.Client.csproj", "{29714CC1-077A-47D1-83E5-15CDE9013148}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22C771BA-13D4-45A4-9188-B3310A586114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22C771BA-13D4-45A4-9188-B3310A586114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22C771BA-13D4-45A4-9188-B3310A586114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22C771BA-13D4-45A4-9188-B3310A586114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29714CC1-077A-47D1-83E5-15CDE9013148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29714CC1-077A-47D1-83E5-15CDE9013148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29714CC1-077A-47D1-83E5-15CDE9013148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29714CC1-077A-47D1-83E5-15CDE9013148}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
