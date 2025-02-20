@@ -1,0 +1,12 @@
+﻿@page "/custom-text-field"
+
+<h3>Custom bind- Example</h3>
+
+<!-- Use custom component with two-way binding -->
+<CustomTextField @bind-Value="ButtonLabel" />
+
+<p>Button Label: @ButtonLabel</p>
+
+@code {
+    private string ButtonLabel { get; set; } = "Default Label";
+}

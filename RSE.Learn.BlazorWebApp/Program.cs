@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.FluentUI.AspNetCore.Components;
-using RSE.Learn.BlazorWebApp.Client.Pages;
+using MudBlazor.Services;
 using RSE.Learn.BlazorWebApp.Components;
 using RSE.Learn.BlazorWebApp.Components.Account;
 using RSE.Learn.BlazorWebApp.Data;
@@ -15,6 +15,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 builder.Services.AddFluentUIComponents();
+builder.Services.AddMudServices();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
