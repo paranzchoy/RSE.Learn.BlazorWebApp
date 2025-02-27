@@ -13,6 +13,8 @@ builder.AddProject<Projects.RSE_Learn_BlazorWebApp>("main-app")
     //.WithReference(db)
     //.WaitFor(db)
     .WithReference(cache)
-    .WaitFor(cache); ;
+    .WaitFor(cache)
+    .WithReference(keycloak)
+    .WaitFor(keycloak);
 
 builder.Build().Run();
