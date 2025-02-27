@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RSE.Learn.BlazorWebApp.Client\RSE.Learn.BlazorWebApp.Client.csproj" />
     <ProjectReference Include="..\RSE.Learn.BlazorWebApp.ServiceDefaults\RSE.Learn.BlazorWebApp.ServiceDefaults.csproj" />
+    <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.0.0-preview.5.24551.3" />
     <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
     <PackageReference Include="Aspire.StackExchange.Redis.DistributedCaching" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
