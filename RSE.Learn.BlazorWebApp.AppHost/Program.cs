@@ -5,7 +5,8 @@ var cache = builder.AddRedis("cache")
 
 var keycloak = builder.AddKeycloak("keycloak", 8080)
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDataVolume();
+    .WithDataVolume()
+    .WithRealmImport("../realms");
 
 builder.AddProject<Projects.RSE_Learn_BlazorWebApp>("main-app")
     .WithExternalHttpEndpoints()

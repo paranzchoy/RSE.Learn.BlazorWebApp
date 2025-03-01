@@ -34,18 +34,27 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 //    })
 //    .AddIdentityCookies();
 
+//builder.Services.AddAuthentication()
+//                .AddKeycloakJwtBearer("keycloak", realm: "Donaide", options =>
+//                {
+//                    options.RequireHttpsMetadata = false;
+//                    options.Audience = "donaide-web-api";
+//                    options.TokenValidationParameters = new TokenValidationParameters
+//                    {
+//                        ValidateIssuer = true,
+//                        ValidateAudience = true,
+//                        ValidateLifetime = true,
+//                        ValidateIssuerSigningKey = true
+//                    };
+//                });
+
+//builder.Services.AddAuthorizationBuilder();
+
 builder.Services.AddAuthentication()
-                .AddKeycloakJwtBearer("keycloak", realm: "DonaideAPIRealm", options =>
+                .AddKeycloakJwtBearer("keycloak", realm: "Donaide", options =>
                 {
                     options.RequireHttpsMetadata = false;
-                    options.Audience = "donaide-web-api";
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true
-                    };
+                    options.Audience = "account";
                 });
 
 builder.Services.AddAuthorizationBuilder();

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json.schemastore.org/aspire-8.0.json",
+  "resources": {
+    "keycloak": {
+      "type": "container.v0",
+      "image": "quay.io/keycloak/keycloak:26.0",
+      "args": [
+        "start",
+        "--import-realm"
+      ],
+      "bindMounts": [
+        {
+          "source": "../realms",
+          "target": "/opt/keycloak/data/import",
+          "readOnly": false
+        }
+      ],
+      "volumes": [
+        {
+          "name": "donaidev3.apphost-7053590f21-keycloak-data",
+          "target": "/opt/keycloak/data",
+          "readOnly": false
+        }
+      ],
+      "env": {
+        "KC_BOOTSTRAP_ADMIN_USERNAME": "admin",
+        "KC_BOOTSTRAP_ADMIN_PASSWORD": "{keycloak-password.value}",
+        "KC_HEALTH_ENABLED": "true"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 8080
+        },
+        "management": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 9000
+        }
+      }
+    },
+    "keycloak-password": {
+      "type": "parameter.v0",
+      "value": "{keycloak-password.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true,
+          "default": {
+            "generate": {
+              "minLength": 22
+            }
+          }
+        }
+      }
+    }
+  }
+}
