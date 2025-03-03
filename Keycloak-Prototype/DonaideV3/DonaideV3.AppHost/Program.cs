@@ -14,11 +14,9 @@ var db = builder.ExecutionContext.IsPublishMode
 
 var keycloak = builder.AddKeycloak("keycloak", 8080)
                       .WithExternalHttpEndpoints()
-                      .WithDataVolume()
-                      .WithReference(db)                      
-                      .WithLifetime(ContainerLifetime.Persistent);
-
-//.WithRealmImport("../realms");
+                      .WithDataVolume()                      
+                      .WithLifetime(ContainerLifetime.Persistent)
+                      .WithRealmImport("../realms");
 
 var apiService = builder.AddProject<Projects.DonaideV3_ApiService>("apiservice")
                         .WithExternalHttpEndpoints()
