@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DonaideV3.AppHost", "DonaideV3.AppHost\DonaideV3.AppHost.csproj", "{677964DC-285C-4372-9A6D-45B044040E41}"
+	ProjectSection(ProjectDependencies) = postProject
+		{16B10D13-13F3-4C6F-A078-BADFC67A3660} = {16B10D13-13F3-4C6F-A078-BADFC67A3660}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DonaideV3.ServiceDefaults", "DonaideV3.ServiceDefaults\DonaideV3.ServiceDefaults.csproj", "{16B10D13-13F3-4C6F-A078-BADFC67A3660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DonaideV3.ApiService", "DonaideV3.ApiService\DonaideV3.ApiService.csproj", "{1246CCA5-77EA-496D-BDD7-BAD8D93C0DCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DonaideV3.Web", "DonaideV3.Web\DonaideV3.Web.csproj", "{C6E82861-4997-47CE-B8C6-B7C2B55E7CDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{677964DC-285C-4372-9A6D-45B044040E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{677964DC-285C-4372-9A6D-45B044040E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{677964DC-285C-4372-9A6D-45B044040E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{677964DC-285C-4372-9A6D-45B044040E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B10D13-13F3-4C6F-A078-BADFC67A3660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B10D13-13F3-4C6F-A078-BADFC67A3660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B10D13-13F3-4C6F-A078-BADFC67A3660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B10D13-13F3-4C6F-A078-BADFC67A3660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1246CCA5-77EA-496D-BDD7-BAD8D93C0DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1246CCA5-77EA-496D-BDD7-BAD8D93C0DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1246CCA5-77EA-496D-BDD7-BAD8D93C0DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1246CCA5-77EA-496D-BDD7-BAD8D93C0DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6E82861-4997-47CE-B8C6-B7C2B55E7CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6E82861-4997-47CE-B8C6-B7C2B55E7CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6E82861-4997-47CE-B8C6-B7C2B55E7CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6E82861-4997-47CE-B8C6-B7C2B55E7CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
