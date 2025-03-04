@@ -1,0 +1,6 @@
+@RSE.Learn.BlazorWebApp_HostAddress = https://localhost:7055
+
+GET {{RSE.Learn.BlazorWebApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

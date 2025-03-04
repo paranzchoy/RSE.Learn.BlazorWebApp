@@ -16,6 +16,7 @@
             <FluentNavLink Href="custom-text-field" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Custom TextField</FluentNavLink>
             <FluentNavLink Href="manual-dialog" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Manual Dialog</FluentNavLink>
             <FluentNavLink Href="muddrawer" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Muddrawer demo</FluentNavLink>
+            <LogInOrOut />
             <AuthorizeView>
                 <Authorized>
                     <FluentNavLink Href="Account/Manage">@context.User.Identity?.Name</FluentNavLink>
