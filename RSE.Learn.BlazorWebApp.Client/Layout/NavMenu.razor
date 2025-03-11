@@ -1,4 +1,5 @@
-﻿
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.FluentUI.AspNetCore.Components
 @implements IDisposable
 
 @inject NavigationManager NavigationManager
@@ -16,6 +17,11 @@
             <FluentNavLink Href="custom-text-field" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Custom TextField</FluentNavLink>
             <FluentNavLink Href="manual-dialog" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Manual Dialog</FluentNavLink>
             <FluentNavLink Href="muddrawer" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Muddrawer demo</FluentNavLink>
+            <FluentNavGroup Title="Learning Components" @bind-Expanded="@_learningExpanded">
+                <FluentNavLink Href="counter" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Counter</FluentNavLink>
+                <FluentNavLink Href="weather" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Weather</FluentNavLink>
+                <FluentNavLink Href="grapes-editor" Icon="@(new Icons.Regular.Size20.LockClosedKey())" IconColor="Color.Accent">Grapes.js Editor</FluentNavLink>
+            </FluentNavGroup>
             <LogInOrOut />
             <AuthorizeView>
                 <Authorized>
@@ -37,7 +43,7 @@
 
 @code {
     private bool expanded = true;
-
+    private bool _learningExpanded;
     private string? currentUrl;
 
     protected override void OnInitialized()

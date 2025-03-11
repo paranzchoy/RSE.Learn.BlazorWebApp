@@ -29,6 +29,9 @@ builder.Services.AddRazorComponents()
 builder.Services.AddFluentUIComponents();
 builder.Services.AddMudServices();
 
+// Add controllers with API explorer for Swagger/OpenAPI discovery
+builder.Services.AddControllers();
+
 //builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
@@ -216,26 +219,22 @@ else
     app.UseHsts();
 }
 
-//string[] summaries = ["Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"];
-
-//app.MapGet("/weatherforecast", () =>
-//{
-//    var forecast = Enumerable.Range(1, 5).Select(index =>
-//        new WeatherForecast
-//        (
-//            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//            Random.Shared.Next(-20, 55),
-//            summaries[Random.Shared.Next(summaries.Length)]
-//        ))
-//        .ToArray();
-//    return forecast;
-//}).RequireAuthorization();
-
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 
+// Configure routing and authentication/authorization
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Place UseAntiforgery after authentication and authorization but before endpoints
 app.UseAntiforgery();
-//app.UseAuthentication();
-//app.UseAuthorization();
+
+// Configure the endpoints
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapGet("/weather-forecast", ([FromServices] IWeatherForecast WeatherForecast) =>
 {
@@ -253,8 +252,3 @@ app.MapAdditionalIdentityEndpoints();
 app.MapGroup("/authentication").MapLoginAndLogout();
 
 app.Run();
-
-//record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-//{
-//    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-//}

@@ -1,0 +1,34 @@
+/* Roboto Regular */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto'),
+         url('roboto-regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+/* Roboto Medium */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Roboto Medium'),
+         url('roboto-medium.woff2') format('woff2');
+    font-display: swap;
+}
+
+/* Roboto Bold */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Roboto Bold'),
+         url('roboto-bold.woff2') format('woff2');
+    font-display: swap;
+}
+
+/* Use Roboto as fallback if it's already installed locally */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+}

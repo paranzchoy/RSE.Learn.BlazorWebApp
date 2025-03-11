@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.FluentUI.AspNetCore.Components;
 using MudBlazor.Services;
+using Refit;
+using RSE.Learn.BlazorWebApp.Client.Learnings.GrapesJsDemo;
 using RSE.Learn.BlazorWebApp.Client.Weather;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -16,6 +18,10 @@ builder.Services.AddHttpClient<IWeatherForecaster, ClientWeatherForecaster>(http
 {
     httpClient.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 });
+
+// Register the Refit client for GrapesJsApi
+builder.Services.AddRefitClient<IGrapesJsApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
 //builder.Services.AddHttpClient("WeatherAPI", client => client.BaseAddress = new Uri("https://localhost:7055/"))
 //    .AddHttpMessageHandler(sp =>

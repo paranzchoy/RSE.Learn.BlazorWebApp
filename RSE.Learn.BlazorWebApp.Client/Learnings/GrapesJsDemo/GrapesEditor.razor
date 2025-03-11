@@ -1,0 +1,159 @@
+@page "/grapes-editor"
+@inject IJSRuntime JSRuntime
+@inject IGrapesJsApi GrapesJsApi
+@using RSE.Learn.BlazorWebApp.Client.Learnings.GrapesJsDemo
+@using System.Net.Http
+@implements IAsyncDisposable
+@layout RSE.Learn.BlazorWebApp.Client.Layout.GrapesJsLayout
+
+<PageTitle>Grapes.js Editor Demo</PageTitle>
+
+<div class="editor-container">
+    <div id="blocks"></div>
+    <div id="gjs"></div>
+    
+    @if(loading)
+    {
+        <div class="loading-overlay">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    
+    @if(!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger mt-3">
+            @errorMessage
+        </div>
+    }
+    
+    <div class="control-panel">
+        <button class="btn btn-primary" @onclick="InitializeEditor">Initialize Editor</button>
+        
+        @if(debugInfo)
+        {
+            <div class="debug-info mt-3">
+                <p>Template Data:</p>
+                <pre>@(template != null ? System.Text.Json.JsonSerializer.Serialize(template, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) : "No data")</pre>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private IJSObjectReference? module;
+    private string editorId = "gjs";
+    private bool loading = true;
+    private string errorMessage = string.Empty;
+    private GrapesJsTemplate? template;
+    private bool debugInfo = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadTemplateDataAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Auto-initialize on first render
+            await InitializeEditor();
+        }
+    }
+
+    private async Task LoadTemplateDataAsync()
+    {
+        try
+        {
+            loading = true;
+            StateHasChanged();
+            
+            template = await GrapesJsApi.GetTemplateAsync();
+            
+            if (template == null)
+            {
+                errorMessage = "Template data was not returned from the server";
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            errorMessage = $"API connection error: {ex.Message}";
+            Console.Error.WriteLine(ex);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading template: {ex.Message}";
+            Console.Error.WriteLine(ex);
+        }
+        finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task InitializeEditor()
+    {
+        try
+        {
+            loading = true;
+            errorMessage = string.Empty;
+            StateHasChanged();
+            
+            // Direct GrapesJS initialization without module import
+            await JSRuntime.InvokeVoidAsync("initGrapesEditor", editorId, template?.Html, template?.Css);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error initializing editor: {ex.Message}";
+            Console.Error.WriteLine(ex);
+        }
+        finally
+        {
+            loading = false;
+            StateHasChanged();
+        }
+    }
+
+    public async ValueTask<string> GetHtmlContent()
+    {
+        try
+        {
+            return await JSRuntime.InvokeAsync<string>("getEditorHtml");
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    public async ValueTask<string> GetCssContent()
+    {
+        try
+        {
+            return await JSRuntime.InvokeAsync<string>("getEditorCss");
+        }
+        catch
+        {
+            return string.Empty;
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        try
+        {
+            if (module is not null)
+            {
+                await module.DisposeAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error disposing module: {ex.Message}");
+        }
+    }
+}
