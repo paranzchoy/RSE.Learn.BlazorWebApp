@@ -9,8 +9,23 @@
 <PageTitle>Grapes.js Editor Demo</PageTitle>
 
 <div class="editor-container">
-    <div id="blocks"></div>
-    <div id="gjs"></div>
+    <!-- Toolbar panels -->
+    <div class="panel__top">
+        <div class="panel__commands"></div>
+        <div class="panel__devices-c"></div>
+        <div class="panel__views"></div>
+    </div>
+    
+    <!-- Main editor area -->
+    <div class="editor-row">
+        <div id="blocks"></div>
+        <div id="gjs"></div>
+        <div class="panel__right">
+            <div class="layers-container"></div>
+            <div class="styles-container"></div>
+            <div class="traits-container"></div>
+        </div>
+    </div>
     
     @if(loading)
     {
@@ -29,14 +44,19 @@
     }
     
     <div class="control-panel">
-        <button class="btn btn-primary" @onclick="InitializeEditor">Initialize Editor</button>
+        <button class="btn btn-primary" @onclick="InitializeEditor">Reinitialize Editor</button>
         
         @if(debugInfo)
         {
+            <button class="btn btn-secondary ms-2" @onclick="() => debugInfo = false">Hide Debug Info</button>
             <div class="debug-info mt-3">
                 <p>Template Data:</p>
                 <pre>@(template != null ? System.Text.Json.JsonSerializer.Serialize(template, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) : "No data")</pre>
             </div>
+        }
+        else
+        {
+            <button class="btn btn-secondary ms-2" @onclick="() => debugInfo = true">Show Debug Info</button>
         }
     </div>
 </div>
@@ -47,7 +67,7 @@
     private bool loading = true;
     private string errorMessage = string.Empty;
     private GrapesJsTemplate? template;
-    private bool debugInfo = true;
+    private bool debugInfo = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -103,8 +123,19 @@
             errorMessage = string.Empty;
             StateHasChanged();
             
-            // Direct GrapesJS initialization without module import
-            await JSRuntime.InvokeVoidAsync("initGrapesEditor", editorId, template?.Html, template?.Css);
+            // Ensure template is loaded before initialization
+            if (template == null)
+            {
+                await LoadTemplateDataAsync();
+                if (template == null)
+                {
+                    errorMessage = "Unable to load template data. Editor initialization aborted.";
+                    return;
+                }
+            }
+            
+            // Direct GrapesJS initialization using the global window function
+            await JSRuntime.InvokeVoidAsync("initGrapesEditor", editorId, template.Html, template.Css);
         }
         catch (Exception ex)
         {

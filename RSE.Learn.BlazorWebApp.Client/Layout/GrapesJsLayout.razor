@@ -4,6 +4,8 @@
 <!-- GrapesJS CSS -->
 <link rel="stylesheet" href="https://unpkg.com/grapesjs@0.21.7/dist/css/grapes.min.css">
 <link href="css/grapes-editor.css" rel="stylesheet" />
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <!-- Required MudBlazor resources -->
 <MudThemeProvider />
@@ -31,52 +33,253 @@
             editor = null;
         }
         
-        // Create the editor
+        // Create the editor with panels enabled
         editor = grapesjs.init({
             container: `#${elementId}`,
             height: '700px',
             width: 'auto',
+            fromElement: false,
             storageManager: false,
-            panels: { defaults: [] },
-            deviceManager: {
-                devices: [
-                    { name: 'Desktop', width: '' },
-                    { name: 'Tablet', width: '768px' },
-                    { name: 'Mobile', width: '320px' }
+            
+            // Enable default panels and additional custom panels
+            panels: {
+                defaults: [
+                    {
+                        id: 'commands',
+                        el: '.panel__commands',
+                        buttons: [
+                            {
+                                id: 'undo',
+                                className: 'fa fa-undo',
+                                command: 'core:undo',
+                                attributes: { title: 'Undo' }
+                            },
+                            {
+                                id: 'redo',
+                                className: 'fa fa-repeat',
+                                command: 'core:redo',
+                                attributes: { title: 'Redo' }
+                            },
+                            {
+                                id: 'clean-all',
+                                className: 'fa fa-trash',
+                                command: 'core:canvas-clear',
+                                attributes: { title: 'Clear Canvas' }
+                            },
+                            {
+                                id: 'visibility',
+                                className: 'fa fa-eye',
+                                command: 'core:component-outline',
+                                active: false,
+                                attributes: { title: 'Show Borders' }
+                            }
+                        ]
+                    },
+                    {
+                        id: 'devices-c',
+                        el: '.panel__devices-c',
+                        buttons: [
+                            {
+                                id: 'device-desktop',
+                                label: 'Desktop',
+                                command: 'set-device-desktop',
+                                className: 'fa fa-desktop',
+                                active: true,
+                                attributes: { title: 'Desktop' }
+                            },
+                            {
+                                id: 'device-tablet',
+                                label: 'Tablet',
+                                command: 'set-device-tablet',
+                                className: 'fa fa-tablet-alt',
+                                attributes: { title: 'Tablet' }
+                            },
+                            {
+                                id: 'device-mobile',
+                                label: 'Mobile',
+                                command: 'set-device-mobile',
+                                className: 'fa fa-mobile-alt',
+                                attributes: { title: 'Mobile' }
+                            }
+                        ]
+                    },
+                    {
+                        id: 'views',
+                        el: '.panel__views',
+                        buttons: [
+                            {
+                                id: 'open-blocks',
+                                className: 'fa fa-th-large',
+                                command: 'open-blocks',
+                                active: true,
+                                attributes: { title: 'Blocks' }
+                            },
+                            {
+                                id: 'open-layers',
+                                className: 'fa fa-bars',
+                                command: 'open-layers',
+                                attributes: { title: 'Layers' }
+                            },
+                            {
+                                id: 'open-sm',
+                                className: 'fa fa-paint-brush',
+                                command: 'open-sm',
+                                attributes: { title: 'Style Manager' }
+                            },
+                            {
+                                id: 'open-tm',
+                                className: 'fa fa-cog',
+                                command: 'open-tm',
+                                attributes: { title: 'Settings' }
+                            }
+                        ]
+                    }
                 ]
             },
+            
+            deviceManager: {
+                devices: [
+                    { name: 'Desktop', width: '', },
+                    { name: 'Tablet', width: '768px', },
+                    { name: 'Mobile', width: '320px', }
+                ]
+            },
+            
             blockManager: {
                 appendTo: '#blocks',
                 blocks: [
                     {
                         id: 'section',
-                        label: 'Section',
+                        label: '<i class="fa fa-cubes"></i> Section',
                         attributes: { class: 'gjs-block-section' },
                         content: '<section><h1>This is a section title</h1><div>This is section content</div></section>',
                     },
                     {
                         id: 'text',
-                        label: 'Text',
+                        label: '<i class="fa fa-font"></i> Text',
                         content: '<div data-gjs-type="text">Insert your text here</div>',
                     },
                     {
                         id: 'image',
-                        label: 'Image',
+                        label: '<i class="fa fa-image"></i> Image',
                         content: { type: 'image' },
+                    },
+                    {
+                        id: 'button',
+                        label: '<i class="fa fa-hand-pointer"></i> Button',
+                        content: '<button class="button">Click me</button>',
+                    },
+                    {
+                        id: 'divider',
+                        label: '<i class="fa fa-minus"></i> Divider',
+                        content: '<hr>',
+                    },
+                    {
+                        id: 'container',
+                        label: '<i class="fa fa-square-o"></i> Container',
+                        content: '<div class="container" style="padding: 15px;"></div>',
                     }
                 ]
+            },
+            
+            // Panel managers
+            layerManager: {
+                appendTo: '.layers-container'
+            },
+            
+            styleManager: {
+                appendTo: '.styles-container',
+                sectors: [
+                    {
+                        name: 'Dimension',
+                        open: false,
+                        properties: ['width', 'height', 'min-width', 'min-height', 'max-width', 'max-height', 'padding', 'margin']
+                    },
+                    {
+                        name: 'Typography',
+                        open: false,
+                        properties: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-align', 'text-decoration', 'text-shadow']
+                    },
+                    {
+                        name: 'Decorations',
+                        open: false,
+                        properties: ['background-color', 'border-radius', 'border', 'box-shadow', 'opacity']
+                    }
+                ]
+            },
+            
+            traitManager: {
+                appendTo: '.traits-container',
+            }
+        });
+        
+        // Device commands
+        editor.Commands.add('set-device-desktop', {
+            run: (editor) => editor.setDevice('Desktop')
+        });
+        editor.Commands.add('set-device-tablet', {
+            run: (editor) => editor.setDevice('Tablet')
+        });
+        editor.Commands.add('set-device-mobile', {
+            run: (editor) => editor.setDevice('Mobile')
+        });
+        
+        // Panel commands
+        editor.Commands.add('open-blocks', {
+            run: (editor) => {
+                const pn = editor.Panels;
+                editor.BlockManager.getCategories().forEach(ctg => {
+                    ctg.set('open', true);
+                });
+                document.querySelector('.styles-container').style.display = 'none';
+                document.querySelector('.layers-container').style.display = 'none';
+                document.querySelector('.traits-container').style.display = 'none';
+                document.querySelector('#blocks').style.display = 'block';
+            }
+        });
+        
+        editor.Commands.add('open-layers', {
+            run: (editor) => {
+                document.querySelector('#blocks').style.display = 'none';
+                document.querySelector('.styles-container').style.display = 'none';
+                document.querySelector('.traits-container').style.display = 'none';
+                document.querySelector('.layers-container').style.display = 'block';
+            }
+        });
+        
+        editor.Commands.add('open-sm', {
+            run: (editor) => {
+                document.querySelector('#blocks').style.display = 'none';
+                document.querySelector('.layers-container').style.display = 'none';
+                document.querySelector('.traits-container').style.display = 'none';
+                document.querySelector('.styles-container').style.display = 'block';
+            }
+        });
+        
+        editor.Commands.add('open-tm', {
+            run: (editor) => {
+                document.querySelector('#blocks').style.display = 'none';
+                document.querySelector('.styles-container').style.display = 'none';
+                document.querySelector('.layers-container').style.display = 'none';
+                document.querySelector('.traits-container').style.display = 'block';
             }
         });
 
-        // Load the content
+        // Load content
         if (html && html.trim()) {
             editor.setComponents(html);
+        } else {
+            // Default content
+            editor.setComponents('<div class="welcome-block"><h1>Welcome to GrapesJS</h1><p>Drag blocks from the left panel to get started!</p></div>');
+            editor.setStyle('.welcome-block { padding: 30px; text-align: center; }');
         }
         
         if (css && css.trim()) {
             editor.setStyle(css);
         }
         
+        // Run the blocks command by default
+        editor.runCommand('open-blocks');
         console.log('GrapesJS editor initialized successfully');
         return true;
     };
@@ -99,6 +302,7 @@
 </div>
 
 <style>
+    /* Layout */
     .grapesjs-layout {
         width: 100%;
         height: 100vh;
@@ -107,26 +311,90 @@
         overflow: hidden;
     }
     
+    /* Editor containers */
     .editor-container {
         display: flex;
-        flex-direction: row;
-        height: 90vh;
+        flex-direction: column;
+        height: 100vh;
+        position: relative;
+    }
+    
+    /* Editor panels */
+    .panel__top {
+        display: flex;
+        background-color: #444;
+        color: white;
+        padding: 5px;
+        position: relative;
+        z-index: 2;
+        justify-content: space-between;
+    }
+    
+    .panel__commands, .panel__devices-c, .panel__views {
+        display: flex;
+        align-items: center;
+    }
+    
+    .panel__commands > *, .panel__devices-c > *, .panel__views > * {
+        margin: 0 5px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+        transition: all 0.2s ease;
+    }
+    
+    .panel__commands > *:hover, .panel__devices-c > *:hover, .panel__views > *:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .panel__commands > *.gjs-pn-active, .panel__devices-c > *.gjs-pn-active, .panel__views > *.gjs-pn-active {
+        background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Main content area */
+    .editor-row {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        min-height: 0;
         position: relative;
     }
     
     #blocks {
-        width: 200px;
+        width: 240px;
         padding: 10px;
         background-color: #f5f5f5;
         border-right: 1px solid #ddd;
         overflow-y: auto;
+        height: 100%;
     }
     
     #gjs {
         flex: 1;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .panel__right {
+        width: 240px;
+        background-color: #f5f5f5;
+        border-left: 1px solid #ddd;
+        overflow-y: auto;
         height: 100%;
     }
     
+    /* Editor panel containers */
+    .layers-container, 
+    .styles-container, 
+    .traits-container {
+        padding: 10px;
+        height: 100%;
+    }
+    
+    /* UI elements */
     .loading-overlay {
         position: absolute;
         top: 0;
@@ -141,10 +409,6 @@
     }
     
     .control-panel {
-        position: fixed;
-        bottom: 0;
-        left: 200px;
-        right: 0;
         background: #f5f5f5;
         padding: 10px;
         border-top: 1px solid #ddd;
@@ -158,5 +422,24 @@
         background: #fff;
         border: 1px solid #ddd;
         padding: 5px;
+    }
+    
+    /* GrapesJS blocks customization */
+    .gjs-block {
+        width: 100%;
+        min-height: 40px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+    
+    .gjs-block:hover {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+    
+    /* Override GrapesJS styles */
+    .gjs-cv-canvas {
+        top: 0;
+        width: 100%;
+        height: 100%;
     }
 </style>
